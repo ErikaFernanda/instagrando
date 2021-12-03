@@ -1,53 +1,21 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 export default function Stories() {
-    // const [stories,setStories]=useState([]);    
-
-    const stories = [
-        {
-            id: 1,
-            nome: "Mônica",
-            src: { uri: 'https://gartic.com.br/imgs/mural/pe/pedroh_18/monica.png' }
-
-        },
-        {
-            id: 2,
-            nome: "Cebolinha",
-            src: { uri: 'https://gartic.com.br/imgs/mural/gh/ghour_gartic/cebolinha.png' }
-
-        },
-        {
-            id: 3,
-            nome: "Cebolinha",
-            src: { uri: 'https://gartic.com.br/imgs/mural/fu/fuuuuuu/magali-para-a-kazinha-u.png' }
-
-        },
-        {
-            id: 4,
-            nome: "Cebolinha",
-            src: { uri: 'https://gartic.com.br/imgs/mural/va/vanessa8/cascao.png' }
-
-        },
-        {
-            id: 5,
-            nome: "Cebolinha",
-            src: { uri: 'https://gartic.com.br/imgs/mural/ma/maaaaaycastro/chaves.png' }
-
-        },
-        {
-            id: 6,
-            nome: "Cebolinha",
-            src: { uri: 'https://gartic.com.br/imgs/mural/le/le_bracho/chiquinha-do-chaves.png' }
-
+    const [stories,setStories]=useState([]);   
+    
+    useEffect(function(){
+        async function getData(){
+            const response = await fetch('https://mobile.ect.ufrn.br:3000/stories');
+            const stories = await response.json();
+            setStories(stories)
         }
-        
-    ]
-
+        getData();
+    },[])
     function renderItem({ item }) {
         return <View style={styles.story}>
-            <Image style={styles.imgstory} source={item.src} />
-            <Text>{item.nome}</Text>
+            <Image style={styles.imgstory} source={{uri:item.imgPerfilUri}} />
+            <Text>{item.nomeUsuario}</Text>
         </View>
 
 
@@ -83,6 +51,7 @@ const styles = StyleSheet.create({
     stories: {
         height: 90,
         flexDirection: 'row',
+        backgroundColor: "#ffffff"
 
     },
 
